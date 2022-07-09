@@ -100,6 +100,6 @@ class UserControllerTest {
                     .content(objectMapper.writeValueAsString(messageDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType((MediaType.APPLICATION_JSON)))
-                .andExpect(content().string(objectMapper.writeValueAsString(messages)));;
+                .andExpect(content().string(objectMapper.writeValueAsString(messages)));
     }
 }

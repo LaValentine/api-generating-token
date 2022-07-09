@@ -3,9 +3,7 @@ package lav.valentine.apigeneratingtoken.service;
 import lav.valentine.apigeneratingtoken.dto.LoginRequestDto;
 import lav.valentine.apigeneratingtoken.dto.TokenResponseDto;
 import lav.valentine.apigeneratingtoken.entity.User;
-import lav.valentine.apigeneratingtoken.exception.TokenException;
 import lav.valentine.apigeneratingtoken.exception.WrongPasswordException;
-import lav.valentine.apigeneratingtoken.repository.UserRepository;
 import lav.valentine.apigeneratingtoken.service.impl.LoginServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,9 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;

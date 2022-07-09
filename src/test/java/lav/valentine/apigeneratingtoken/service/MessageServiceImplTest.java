@@ -57,7 +57,7 @@ class MessageServiceImplTest {
 
         when(messageRepository.findTop10ByUser(userService.getUserByName(USER))).thenReturn(listMessages);
 
-        messageService.checkMessage(messageDto, TOKEN).stream().forEach(m -> {
+        messageService.checkMessage(messageDto, TOKEN).forEach(m -> {
             assertEquals(m.getName(), USER);
             assertEquals(m.getMessage(), SOME_MESSAGE);
         });
