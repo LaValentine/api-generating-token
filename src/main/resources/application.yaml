@@ -2,6 +2,7 @@
 exception:
   user:
     not-exist: "User not exist"
+    wrong-password: "Wrong password"
   token:
     is-null: "User not authorized"
     for-another-user: "Authorized another user"

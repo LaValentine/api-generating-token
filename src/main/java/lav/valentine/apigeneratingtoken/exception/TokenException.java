@@ -6,6 +6,6 @@ public class TokenException extends ApiException {
 
     public TokenException(String message) {
         super(message);
-        super.httpStatus = HttpStatus.BAD_REQUEST;
+        super.httpStatus = HttpStatus.FORBIDDEN;
     }
 }
