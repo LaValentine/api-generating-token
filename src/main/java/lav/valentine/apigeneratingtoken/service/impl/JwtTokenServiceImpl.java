@@ -45,6 +45,9 @@ public class JwtTokenServiceImpl implements TokenService {
             log.warn(TOKEN_IS_NULL);
             throw new TokenException(TOKEN_IS_NULL);
         }
+
+        String tokenUsername;
+
         try {
             byte[] secretBytes = JWT_SECRET.getBytes();
 
@@ -53,17 +56,17 @@ public class JwtTokenServiceImpl implements TokenService {
                     .build()
                     .parseClaimsJws(token.replace("Bearer_", ""));
 
-            String tokenUsername = jwsClaims.getBody()
+            tokenUsername = jwsClaims.getBody()
                     .getSubject();
-
-            if (!tokenUsername.equals(username)) {
-                log.warn(TOKEN_FOR_ANOTHER_USER);
-                throw new TokenException(TOKEN_FOR_ANOTHER_USER);
-            }
         }
         catch (Exception ex) {
             log.error(TOKEN_UNKNOWN_EXCEPTION);
             throw new TokenException(TOKEN_UNKNOWN_EXCEPTION);
+        }
+
+        if (!tokenUsername.equals(username)) {
+            log.warn(TOKEN_FOR_ANOTHER_USER);
+            throw new TokenException(TOKEN_FOR_ANOTHER_USER);
         }
 
         return true;
