@@ -1,0 +1,4 @@
+# Exception messages
+exception:
+  user:
+    not-exist: "User not exist"
