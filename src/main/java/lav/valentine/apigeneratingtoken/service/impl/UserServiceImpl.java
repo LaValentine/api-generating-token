@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     @Value("${exception.user.not-exist}")
-    private static String USER_NOT_EXIST;
+    private String USER_NOT_EXIST;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;

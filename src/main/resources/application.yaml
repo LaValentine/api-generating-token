@@ -2,3 +2,9 @@
 exception:
   user:
     not-exist: "User not exist"
+  token:
+    is-null: "User not authorized"
+    for-another-user: "Authorized another user"
+    unknown-exception: "Unknown token exception"
+app:
+  jwt-secret: "lav-valentine-secret-key_lav-valentine-secret-key"

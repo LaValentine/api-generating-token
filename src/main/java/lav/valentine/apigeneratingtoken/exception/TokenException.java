@@ -2,9 +2,9 @@ package lav.valentine.apigeneratingtoken.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class NotExistException extends ApiException {
+public class TokenException extends ApiException {
 
-    public NotExistException(String message) {
+    public TokenException(String message) {
         super(message);
         super.httpStatus = HttpStatus.BAD_REQUEST;
     }
