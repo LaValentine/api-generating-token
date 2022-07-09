@@ -8,3 +8,4 @@ exception:
     unknown-exception: "Unknown token exception"
 app:
   jwt-secret: "lav-valentine-secret-key_lav-valentine-secret-key"
+  message-getting-first-10: "history 10"
