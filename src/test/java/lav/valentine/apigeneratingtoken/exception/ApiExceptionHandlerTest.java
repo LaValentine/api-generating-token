@@ -49,7 +49,7 @@ class ApiExceptionHandlerTest {
 
         LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
 
-        mvc.perform(MockMvcRequestBuilders.post("/api/")
+        mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(loginRequestDto)))
                 .andExpect(content().string(ERROR_MESSAGE))
@@ -62,7 +62,7 @@ class ApiExceptionHandlerTest {
 
         LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
 
-        mvc.perform(MockMvcRequestBuilders.post("/api/")
+        mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(loginRequestDto)))
                 .andExpect(status().isUnauthorized())
@@ -76,7 +76,7 @@ class ApiExceptionHandlerTest {
         MessageDto messageDto = new MessageDto(USER, MESSAGE);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/message")
-                .header("token", TOKEN)
+                .header("Authorization", TOKEN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(messageDto)))
                 .andExpect(content().string(ERROR_MESSAGE))

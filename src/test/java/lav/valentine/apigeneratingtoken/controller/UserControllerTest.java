@@ -64,7 +64,7 @@ class UserControllerTest {
 
         when(loginService.generateToken(any())).thenReturn(tokenResponseDto);
 
-        mvc.perform(MockMvcRequestBuilders.post("/api/")
+        mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(loginRequestDto)))
                 .andExpect(status().isOk())
@@ -78,7 +78,7 @@ class UserControllerTest {
         MessageDto messageDto = new MessageDto(USER, MESSAGE);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/message")
-                    .header("token", TOKEN)
+                    .header("Authorization", TOKEN)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(messageDto)))
                 .andExpect(status().isOk())

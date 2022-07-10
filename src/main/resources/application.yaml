@@ -6,7 +6,7 @@ exception:
   token:
     is-null: "User not authorized"
     for-another-user: "Authorized another user"
-    unknown-exception: "Unknown token exception"
+    wrong: "Token is wrong"
 
 # Constants
 app:

@@ -28,15 +28,15 @@ public class UserController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) throws JsonProcessingException {
-        log.info("Got POST request endpoint: /api/ request body :" + objectMapper.writeValueAsString(loginRequestDto));
+        log.info("Got POST request endpoint: /api/login request body :" + objectMapper.writeValueAsString(loginRequestDto));
 
         return ResponseEntity.ok(loginService.generateToken(loginRequestDto));
     }
 
     @PostMapping(value = "/message")
-    public ResponseEntity<?> sendMessage(@RequestHeader("token") String token,
+    public ResponseEntity<?> sendMessage(@RequestHeader("Authorization") String token,
                                          @RequestBody MessageDto messageDto) throws JsonProcessingException {
         log.info("Got POST request endpoint: /api/message request body :" + objectMapper.writeValueAsString(messageDto));
 

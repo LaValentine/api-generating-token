@@ -23,8 +23,8 @@ public class JwtTokenServiceImpl implements TokenService {
     private String TOKEN_IS_NULL;
     @Value("${exception.token.for-another-user}")
     private String TOKEN_FOR_ANOTHER_USER;
-    @Value("${exception.token.unknown-exception}")
-    private String TOKEN_UNKNOWN_EXCEPTION;
+    @Value("${exception.token.wrong}")
+    private String TOKEN_WRONG;
 
     @Override
     public String generateToken(String username) {
@@ -60,8 +60,8 @@ public class JwtTokenServiceImpl implements TokenService {
                     .getSubject();
         }
         catch (Exception ex) {
-            log.error(TOKEN_UNKNOWN_EXCEPTION);
-            throw new TokenException(TOKEN_UNKNOWN_EXCEPTION);
+            log.warn(TOKEN_WRONG);
+            throw new TokenException(TOKEN_WRONG);
         }
 
         if (!tokenUsername.equals(username)) {
