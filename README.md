@@ -8,7 +8,7 @@
 * Flyway
 
 ## Запуск приложения
-### Шаг #1
+Шаг #1
 Установите переменные окружения или же оставьте значения поумолчанию
   ```
     SERVER_PORT=1509
@@ -18,7 +18,7 @@
     DATASOURCE_USERNAME=postgres
     DATASOURCE_USERNAME=root
   ```
-### Шаг #2 
+Шаг #2 
 Проверьте существует ли база данных с именем, храмимым переменной окружения `DATASOURCE_DATABASE`
 
 Необходимо создать, если такой базы данных не существует
@@ -26,29 +26,29 @@
     CREATE DATABASE api-generating-token
   ```
 
-### Шаг #3
+Шаг #3
   ```
     mvn package -DskipTests
   ```
-### Шаг #4
+Шаг #4
   ```
     java -jar ./target/api-generating-token-0.0.1-SNAPSHOT.jar
   ```
 ## Запуск приложения с использованием Docker
-### Шаг #1
+Шаг #1
   ```
     docker run --name db -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=api-generating-token postgres
   ```
-### Шаг #2
+Шаг #2
   ```
     docker build -t api-generating-token .
   ```
-### Шаг #3
+Шаг #3
   ```
     docker run --name api-generating-token -p 1509:1509 -e DATASOURCE_HOST=host.docker.internal api-generating-token
   ```
 ## Или
-### Шаг #1
+Шаг #1
   ```
     docker compose up
   ```
@@ -57,7 +57,7 @@
 ### POST  `/api/login`
 #### Аунтификация пользователя и получение jwt-токена
 > Запрос
-> * Заголовоки
+> * Заголовки
 >   ```
 >    Content-Type:application/json
 >   ```
@@ -78,7 +78,7 @@
 ### POST  `/api/register`
 #### Регистрация пользователя и получение jwt-токена
 > Запрос
-> * Заголовоки
+> * Заголовки
 >   ```
 >    Content-Type:application/json
 >   ```
@@ -98,7 +98,7 @@
 ### POST `/api/message`
 #### Сохранение сообщения
 > Запрос
-> * Заголовоки
+> * Заголовки
 >   ```
 >    Authorization:Bearer_тут-сгенерированный-токен
 >    Content-Type:application/json
@@ -120,7 +120,7 @@
  
 #### Получение истории N сообщений
 > Запрос
-> * Заголовоки
+> * Заголовки
 >    ```
 >    Authorization:Bearer_тут-сгенерированный-токен
 >    Content-Type:application/json
@@ -164,40 +164,40 @@ Diana | FRqjSU
 *** Для демостриции откройте `curl-requests.bat`
 
 *** Примеры состалены с учетом, что сервис запущен на порте 1509
->  ### Запрос
+>  Запрос
 >  ```
 >    curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"FRqjSU\" }" http://127.0.0.1:1509/api/login
 >  ```
->  ### Ответ
+>  Ответ
 > ```
 >  {
 >    "token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8"
 >  }
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >  curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"wrong-password\" }" http://127.0.0.1:1509/api/login
 > ```
-> ### Ответ
+> Ответ
 > ```
 >  Wrong password
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >   curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"User\", \"password\": \"password\" }" http://127.0.0.1:1509/api/login
 > ```
-> ### Ответ
+> Ответ
 > ```
 >   User not exist
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:1509/api/message
 > ```
-> ### Ответ
+> Ответ
 > ```
 >   {
 >     "name":"Diana",
@@ -205,11 +205,11 @@ Diana | FRqjSU
 >   }
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >  curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"Diana sent any message\" }" http://127.0.0.1:1509/api/message
 > ```
-> ### Ответ
+> Ответ
 > ```
 >   {
 >     "name":"Diana",
@@ -217,11 +217,11 @@ Diana | FRqjSU
 >   }
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"history 3\" }" http://127.0.0.1:1509/api/message
 > ```
-> ### Ответ
+> Ответ
 > ```
 >   [
 >     {
@@ -239,11 +239,11 @@ Diana | FRqjSU
 >   ]
 > ```
 
-> ### Запрос
+> Запрос
 > ```
 >   curl -X POST -H "Content-Type:application/json" -H "Authorization:token" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:1509/api/message
 > ```
-> ### Ответ
+> Ответ
 > ```
 >   Token is wrong
 > ```
