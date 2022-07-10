@@ -76,6 +76,8 @@ public class UserController {
         log.info("Got POST request endpoint: /api/message request body:" + objectMapper.writeValueAsString(messageDto));
 
         List<MessageDto> messages = messageService.checkMessage(messageDto, token);
-        return messages.isEmpty() ? ResponseEntity.ok(messageDto) : ResponseEntity.ok(messages);
+        return messages.isEmpty()
+                ? ResponseEntity.ok(messageDto)
+                : ResponseEntity.ok(messages);
     }
 }
