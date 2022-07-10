@@ -95,7 +95,7 @@ class UserControllerTest {
         when(messageService.checkMessage(any(), any())).thenReturn(messages);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/message")
-                    .header("token", TOKEN)
+                    .header("Authorization", TOKEN)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(messageDto)))
                 .andExpect(status().isOk())
