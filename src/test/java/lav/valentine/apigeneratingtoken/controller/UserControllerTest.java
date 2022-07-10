@@ -1,9 +1,9 @@
 package lav.valentine.apigeneratingtoken.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lav.valentine.apigeneratingtoken.dto.LoginRequestDto;
+import lav.valentine.apigeneratingtoken.dto.LoginDto;
 import lav.valentine.apigeneratingtoken.dto.MessageDto;
-import lav.valentine.apigeneratingtoken.dto.TokenResponseDto;
+import lav.valentine.apigeneratingtoken.dto.TokenDto;
 import lav.valentine.apigeneratingtoken.service.LoginService;
 import lav.valentine.apigeneratingtoken.service.MessageService;
 import org.junit.jupiter.api.AfterEach;
@@ -59,17 +59,17 @@ class UserControllerTest {
 
     @Test
     void login() throws Exception {
-        TokenResponseDto tokenResponseDto = new TokenResponseDto(TOKEN);
-        LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
+        TokenDto tokenDto = new TokenDto(TOKEN);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
 
-        when(loginService.generateToken(any())).thenReturn(tokenResponseDto);
+        when(loginService.userAuthentication(any())).thenReturn(tokenDto);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(loginRequestDto)))
+                    .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(objectMapper.writeValueAsString(tokenResponseDto)));
+                .andExpect(content().string(objectMapper.writeValueAsString(tokenDto)));
     }
 
     @Test

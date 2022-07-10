@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * The class is designed to work with user data
+ */
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +22,11 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Getting a user by name
+     * @param username User's name
+     * @return User
+     */
     @Override
     public User getUserByName(String username) {
         log.info("Finding user, where name is " + username);

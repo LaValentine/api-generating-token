@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Message from user
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

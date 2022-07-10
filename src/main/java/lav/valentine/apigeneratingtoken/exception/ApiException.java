@@ -1,11 +1,12 @@
 package lav.valentine.apigeneratingtoken.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+/**
+ * Exceptions that occur as a result of processing user requests
+ */
 @Getter
-@Setter
 public abstract class ApiException extends RuntimeException {
 
     protected HttpStatus httpStatus;

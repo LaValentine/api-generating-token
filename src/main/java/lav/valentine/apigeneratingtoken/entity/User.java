@@ -6,6 +6,9 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * Database table 'user'
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

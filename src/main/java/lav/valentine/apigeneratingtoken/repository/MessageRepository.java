@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * A class for working with data from the 'message' database table
+ */
 @Repository
 public interface MessageRepository extends CrudRepository<Message, String> {
     List<Message> findTop10ByUser(User user);

@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * The class is designed to work with messages sent by users
+ */
 @Slf4j
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -31,6 +34,12 @@ public class MessageServiceImpl implements MessageService {
         this.tokenService = tokenService;
     }
 
+    /**
+     * The method processes messages sent by the user
+     * @param messageDto Data sent by the user (name, message)
+     * @param token User's access token
+     * @return Saved message or list messages
+     */
     @Override
     public List<MessageDto> checkMessage(MessageDto messageDto, String token) {
         log.info("Checking message from " + messageDto.getName());

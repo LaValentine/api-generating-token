@@ -1,7 +1,7 @@
 package lav.valentine.apigeneratingtoken.service;
 
-import lav.valentine.apigeneratingtoken.dto.LoginRequestDto;
-import lav.valentine.apigeneratingtoken.dto.TokenResponseDto;
+import lav.valentine.apigeneratingtoken.dto.LoginDto;
+import lav.valentine.apigeneratingtoken.dto.TokenDto;
 import lav.valentine.apigeneratingtoken.entity.User;
 import lav.valentine.apigeneratingtoken.exception.WrongPasswordException;
 import lav.valentine.apigeneratingtoken.service.impl.LoginServiceImpl;
@@ -45,19 +45,19 @@ class LoginServiceImplTest {
     void generateToken() {
         when(tokenService.generateToken(any())).thenReturn(TOKEN);
 
-        LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
-        TokenResponseDto tokenResponseDto = loginService.generateToken(loginRequestDto);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
+        TokenDto tokenDto = loginService.userAuthentication(loginDto);
 
-        assertNotNull(tokenResponseDto);
-        assertEquals(TOKEN, tokenResponseDto.getToken());
+        assertNotNull(tokenDto);
+        assertEquals(TOKEN, tokenDto.getToken());
     }
 
     @Test
     void generateTokenWrongPassword() {
         when(tokenService.generateToken(any())).thenReturn(TOKEN);
 
-        LoginRequestDto loginRequestDto = new LoginRequestDto(USER, WRONG_PASSWORD);
+        LoginDto loginDto = new LoginDto(USER, WRONG_PASSWORD);
 
-        assertThrows(WrongPasswordException.class, () -> loginService.generateToken(loginRequestDto));
+        assertThrows(WrongPasswordException.class, () -> loginService.userAuthentication(loginDto));
     }
 }

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * Database table 'message'
+ */
 @Data
 @Builder
 @AllArgsConstructor

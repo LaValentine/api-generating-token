@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 
+/**
+ * The class is intended for operations with a jwt token
+ */
 @Slf4j
 @Service
 public class JwtTokenServiceImpl implements TokenService {
@@ -26,6 +29,11 @@ public class JwtTokenServiceImpl implements TokenService {
     @Value("${exception.token.wrong}")
     private String TOKEN_WRONG;
 
+    /**
+     * The method generates a jwt token
+     * @param username The name of the user for which the token is generated
+     * @return jwt token
+     */
     @Override
     public String generateToken(String username) {
         log.info("Generating token for " + username);
@@ -37,6 +45,12 @@ public class JwtTokenServiceImpl implements TokenService {
                 .compact();
     }
 
+    /**
+     * The method checks the validity of the token
+     * @param token Bearer token
+     * @param username The user for whom the token was generated
+     * @return Is the token valid
+     */
     @Override
     public Boolean tokenIsValid(String token, String username) {
         log.info("Chek token \"" + token + "\" for " + username);

@@ -2,7 +2,7 @@ package lav.valentine.apigeneratingtoken.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lav.valentine.apigeneratingtoken.controller.UserController;
-import lav.valentine.apigeneratingtoken.dto.LoginRequestDto;
+import lav.valentine.apigeneratingtoken.dto.LoginDto;
 import lav.valentine.apigeneratingtoken.dto.MessageDto;
 import lav.valentine.apigeneratingtoken.exception.handler.ApiExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,11 +47,11 @@ class ApiExceptionHandlerTest {
         when(userController.login(any()))
                 .thenThrow(new NotExistException(ERROR_MESSAGE));
 
-        LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(loginRequestDto)))
+                    .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(content().string(ERROR_MESSAGE))
                 .andExpect(status().isBadRequest());
     }
@@ -60,11 +60,11 @@ class ApiExceptionHandlerTest {
         when(userController.login(any()))
                 .thenThrow(new WrongPasswordException(ERROR_MESSAGE));
 
-        LoginRequestDto loginRequestDto = new LoginRequestDto(USER, PASSWORD);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(loginRequestDto)))
+                    .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string(ERROR_MESSAGE));
     }
