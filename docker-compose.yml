@@ -4,16 +4,17 @@ services:
     container_name: server
     build: ./
     ports:
-      - 8080:8080
+      - 1509:1509
     depends_on:
       - db
     environment:
-      - DATABASE_HOST=db
+      - DATASOURCE_HOST=db
   db:
+    container_name: db
     image: postgres
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=testdb
+      - POSTGRES_DB=api-generating-token
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root

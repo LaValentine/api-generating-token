@@ -1,6 +1,6 @@
 # Описание
-### Сервис генерирует jwt токен для заранее зарегестрированных пользователей и сохраняеет отправляемые ими сообщения
-#### Технологии
+Сервис генерирует jwt токен для заранее зарегестрированных пользователей и сохраняеет отправляемые ими сообщения
+## Технологии
 * Java 11
 * Spring Boot
 * Spring Data JPA
@@ -11,7 +11,7 @@
 ### Шаг #1
 Установите переменные окружения или же оставьте значения поумолчанию
   ```
-    SERVER_PORT=8080
+    SERVER_PORT=1509
     DATASOURCE_HOST=localhost
     DATASOURCE_PORT=5432
     DATASOURCE_DATABASE=api-generating-token
@@ -44,7 +44,7 @@
   ```
 ### Шаг #3
   ```
-    docker run --name api-generating-token -p 8080:8080 -e DATASOURCE_HOST=host.docker.internal api-generating-token
+    docker run --name api-generating-token -p 1509:1509 -e DATASOURCE_HOST=host.docker.internal api-generating-token
   ```
 ## Или
 ### Шаг #1
@@ -161,9 +161,10 @@
 ## Примеры запросов через терминал 
 *** Для демостриции откройте `curl-requests.bat`
 
+*** Примеры состалены с учетом, что сервис запущен с порта 1509
 >  ### Запрос
 >  ```
->    curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"FRqjSU\" }" http://127.0.0.1:8080/api/login
+>    curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"FRqjSU\" }" http://127.0.0.1:1509/api/login
 >  ```
 >  ### Ответ
 > ```
@@ -174,7 +175,7 @@
 
 > ### Запрос
 > ```
->  curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"wrong-password\" }" http://127.0.0.1:8080/api/login
+>  curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"Diana\", \"password\": \"wrong-password\" }" http://127.0.0.1:1509/api/login
 > ```
 > ### Ответ
 > ```
@@ -183,7 +184,7 @@
 
 > ### Запрос
 > ```
->   curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"User\", \"password\": \"password\" }" http://127.0.0.1:8080/api/login
+>   curl -X POST -H "Content-Type:application/json" -d "{ \"name\": \"User\", \"password\": \"password\" }" http://127.0.0.1:1509/api/login
 > ```
 > ### Ответ
 > ```
@@ -192,7 +193,7 @@
 
 > ### Запрос
 > ```
->   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:8080/api/message
+>   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:1509/api/message
 > ```
 > ### Ответ
 > ```
@@ -204,7 +205,7 @@
 
 > ### Запрос
 > ```
->  curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"Diana sent any message\" }" http://127.0.0.1:8080/api/message
+>  curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"Diana sent any message\" }" http://127.0.0.1:1509/api/message
 > ```
 > ### Ответ
 > ```
@@ -216,7 +217,7 @@
 
 > ### Запрос
 > ```
->   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"history 10\" }" http://127.0.0.1:8080/api/message
+>   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"history 10\" }" http://127.0.0.1:1509/api/message
 > ```
 > ### Ответ
 > ```
@@ -239,7 +240,7 @@
 
 > ### Запрос
 > ```
->   curl -X POST -H "Content-Type:application/json" -H "Authorization:token" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:8080/api/message
+>   curl -X POST -H "Content-Type:application/json" -H "Authorization:token" -d "{ \"name\": \"Diana\", \"message\": \"message\" }" http://127.0.0.1:1509/api/message
 > ```
 > ### Ответ
 > ```
