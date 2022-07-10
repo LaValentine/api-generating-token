@@ -7,4 +7,5 @@ import lav.valentine.apigeneratingtoken.entity.User;
  */
 public interface UserService {
     User getUserByName(String username);
+    User saveUser(String username, String password);
 }

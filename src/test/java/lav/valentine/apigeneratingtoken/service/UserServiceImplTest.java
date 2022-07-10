@@ -52,4 +52,25 @@ class UserServiceImplTest {
 
         assertThrows(NotExistException.class, () -> userService.getUserByName(USERNAME));
     }
+
+    @Test
+    void saveUser() {
+        User user = new User(USER_ID, USERNAME, PASSWORD);
+        when(userRepository.findByName(any())).thenReturn(Optional.empty());
+        when(userRepository.save(any())).thenReturn(user);
+
+        User returnedUser = userService.saveUser(USERNAME, PASSWORD);
+
+        assertNotNull(returnedUser);
+        assertEquals(returnedUser.getName(), USERNAME);
+        assertEquals(returnedUser.getPassword(), PASSWORD);
+    }
+
+    @Test
+    void saveUserWhenUserAlreadyExist() {
+        User user = new User(USER_ID, USERNAME, PASSWORD);
+        when(userRepository.findByName(any())).thenReturn(Optional.of(user));
+
+        assertNull(userService.saveUser(USERNAME, PASSWORD));
+    }
 }

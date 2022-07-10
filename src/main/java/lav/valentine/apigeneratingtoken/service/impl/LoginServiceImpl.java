@@ -30,13 +30,14 @@ public class LoginServiceImpl implements LoginService {
 
     /**
      * The method authenticates the user
-     * @param loginDto The method that generates the jwt token
+     * @param loginDto Contains user data (name, password)
      * @return Generated jwt token
      */
     @Override
     public TokenDto userAuthentication(LoginDto loginDto) {
         User user = userService.getUserByName(loginDto.getName());
 
+        // checking for a password match
         if (user.getPassword().equals(loginDto.getPassword())) {
             return new TokenDto(tokenService.generateToken(user.getName()));
         }
@@ -44,5 +45,15 @@ public class LoginServiceImpl implements LoginService {
             log.warn("Entered wrong password for " + loginDto.getName());
             throw new WrongPasswordException(USER_WRONG_PASSWORD);
         }
+    }
+
+    /**
+     * User registration method
+     * @param loginDto Contains user data (name, password)
+     * @return Is successful registration
+     */
+    @Override
+    public Boolean userRegistration(LoginDto loginDto) {
+        return userService.saveUser(loginDto.getName(), loginDto.getPassword()) != null;
     }
 }

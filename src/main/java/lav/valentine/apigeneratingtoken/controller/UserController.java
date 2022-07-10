@@ -47,6 +47,23 @@ public class UserController {
     }
 
     /**
+     * The method processes the user registration request
+     * @param loginDto Contains user data (name, password)
+     * @return Generated jwt token or user existence message
+     * @throws JsonProcessingException
+     */
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody LoginDto loginDto)
+            throws JsonProcessingException {
+        log.info("Got POST request endpoint: /api/register request body:" +
+                objectMapper.writeValueAsString(loginDto));
+
+        return loginService.userRegistration(loginDto)
+                ? ResponseEntity.ok(loginService.userAuthentication(loginDto))
+                : ResponseEntity.ok("The user already exists, try again");
+    }
+
+    /**
      * The method processes a request with a message from a user
      * @param token Parameter stored in the 'Authorization' header
      * @param messageDto Contains data (name, message)

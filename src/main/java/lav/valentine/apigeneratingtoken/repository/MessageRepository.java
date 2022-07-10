@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Repository
 public interface MessageRepository extends CrudRepository<Message, String> {
-    List<Message> findTop10ByUser(User user);
+    List<Message> findAllByUser(User user);
 }

@@ -30,12 +30,12 @@ class ApiExceptionHandlerTest {
 
     private MockMvc mvc;
 
-    private final String TOKEN = "token";
-    private final String USER = "user";
-    private final String PASSWORD = "password";
-    private final String MESSAGE = "message";
-    private final String ERROR_MESSAGE = "error-message";
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final static String TOKEN = "token";
+    private final static String USER = "user";
+    private final static String PASSWORD = "password";
+    private final static String MESSAGE = "message";
+    private final static String ERROR_MESSAGE = "error-message";
+    private final static ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {

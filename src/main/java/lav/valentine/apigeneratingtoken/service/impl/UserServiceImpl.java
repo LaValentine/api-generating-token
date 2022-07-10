@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * The class is designed to work with user data
  */
@@ -34,5 +36,18 @@ public class UserServiceImpl implements UserService {
             log.warn(USER_NOT_EXIST);
             return new NotExistException(USER_NOT_EXIST);
         });
+    }
+
+    /**
+     * Saving user
+     * @param username User's name
+     * @param password User's password
+     * @return The user
+     */
+    @Override
+    public User saveUser(String username, String password) {
+        return userRepository.findByName(username).isEmpty()
+                ? userRepository.save(new User(UUID.randomUUID(), username, password))
+                : null;
     }
 }

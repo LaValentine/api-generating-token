@@ -8,7 +8,6 @@ import lav.valentine.apigeneratingtoken.service.impl.MessageServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
@@ -36,18 +35,16 @@ class MessageServiceImplTest {
     @Autowired
     private MessageServiceImpl messageService;
 
-    private final String TOKEN = "token";
-    private final UUID ID = UUID.randomUUID();
-    private final String USER = "user";
-    private final String PASSWORD = "password";
-    private final String SOME_MESSAGE = "message";
-
-    @Value("${app.message-getting-first-10}")
-    private String MESSAGE_GETTING_FIRST_10;
+    private final static String TOKEN = "token";
+    private final static UUID ID = UUID.randomUUID();
+    private final static String USER = "user";
+    private final static String PASSWORD = "password";
+    private final static String SOME_MESSAGE = "message";
+    private final static String MESSAGE_GETTING_FIRST = "message-getting-first";
 
     @Test
     void checkMessageReturnedFirstMessages() {
-        MessageDto messageDto = new MessageDto(USER, MESSAGE_GETTING_FIRST_10);
+        MessageDto messageDto = new MessageDto(USER, MESSAGE_GETTING_FIRST);
         User user = new User(ID, USER, PASSWORD);
         List<Message> listMessages = List.of(
                 new Message(ID, user, SOME_MESSAGE),
@@ -55,7 +52,7 @@ class MessageServiceImplTest {
 
         when(tokenService.tokenIsValid(any(), any())).thenReturn(true);
 
-        when(messageRepository.findTop10ByUser(userService.getUserByName(USER))).thenReturn(listMessages);
+        when(messageRepository.findAllByUser(userService.getUserByName(USER))).thenReturn(listMessages);
 
         messageService.checkMessage(messageDto, TOKEN).forEach(m -> {
             assertEquals(m.getName(), USER);
@@ -63,6 +60,7 @@ class MessageServiceImplTest {
         });
 
     }
+
     @Test
     void checkMessageToSave() {
         MessageDto messageDto = new MessageDto(USER, SOME_MESSAGE);

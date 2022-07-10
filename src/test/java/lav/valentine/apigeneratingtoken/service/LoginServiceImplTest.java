@@ -14,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
@@ -29,17 +31,16 @@ class LoginServiceImplTest {
     @Autowired
     private LoginServiceImpl loginService;
 
-    private final String USER = "user";
-    private final String PASSWORD = "password";
-    private final String WRONG_PASSWORD = "wrong-password";
-    private final String TOKEN = "token";
+    private final static String USER = "user";
+    private final static String PASSWORD = "password";
+    private final static String WRONG_PASSWORD = "wrong-password";
+    private final static String TOKEN = "token";
 
     @BeforeEach
     void createUser() {
         User user = new User(any(), USER, PASSWORD);
         when(userService.getUserByName(USER)).thenReturn(user);
     }
-
 
     @Test
     void generateToken() {
@@ -59,5 +60,24 @@ class LoginServiceImplTest {
         LoginDto loginDto = new LoginDto(USER, WRONG_PASSWORD);
 
         assertThrows(WrongPasswordException.class, () -> loginService.userAuthentication(loginDto));
+    }
+
+    @Test
+    void userRegistrationSuccessful() {
+        User user = new User(UUID.randomUUID(), USER, PASSWORD);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
+
+        when(userService.saveUser(any(), any())).thenReturn(user);
+
+        assertTrue(loginService.userRegistration(loginDto));
+    }
+
+    @Test
+    void userRegistrationUnsuccessful() {
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
+
+        when(userService.saveUser(any(), any())).thenReturn(null);
+
+        assertFalse(loginService.userRegistration(loginDto));
     }
 }

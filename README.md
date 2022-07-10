@@ -1,5 +1,5 @@
 # Описание
-Сервис генерирует jwt токен для заранее зарегестрированных пользователей и сохраняеет отправляемые ими сообщения
+Сервис генерирует jwt токен для зарегестрированных пользователей и сохраняеет отправляемые ими сообщения
 ## Технологии
 * Java 11
 * Spring Boot
@@ -73,6 +73,25 @@
     token: "тут сгенерированный токен" 
 } 
 ```  
+### POST  `/api/register`
+#### Регистрация пользователя и получение jwt-токена
+* Запрос
+  * Тип данных: `Application/json`
+  * Формат данных:
+```
+{ 
+    name: "имя отправителя" 
+    password: "пароль"  
+} 
+```
+* Ответ
+  * Тип данных: `Application/json`
+  * Формат данных:
+```
+{ 
+    token: "тут сгенерированный токен" 
+} 
+```  
 ### POST `/api/message`
 #### Сохранение сообщения
 * Запрос
@@ -97,7 +116,7 @@
       message: "текст сообщение"  
   } 
   ``` 
-#### Получение истории 10 сообщений
+#### Получение истории N сообщений
 * Запрос
   * Заголовок
   ```
@@ -108,9 +127,10 @@
   ```
   { 
       name: "имя отправителя", 
-      message: "history 10" 
+      message: "history N" 
   }  
   ```
+  *** N - число сообщений
 * Ответ
   * Тип данных: `Application/json`
   * Формат данных:
@@ -120,34 +140,7 @@
           name: "имя отправителя", 
           message: "текст сообщение" 
       },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
-      { 
-          name: "имя отправителя", 
-          message: "текст сообщение" 
-      },
+      ...
       { 
           name: "имя отправителя", 
           message: "текст сообщение" 
@@ -225,7 +218,7 @@ Diana | FRqjSU
 
 > ### Запрос
 > ```
->   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"history 10\" }" http://127.0.0.1:1509/api/message
+>   curl -X POST -H "Content-Type:application/json" -H "Authorization:Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEaWFuYSJ9.dM0RCyiJF_SVpMFia7hWACdHmdoNvGNjoNZj-rPe8u8" -d "{ \"name\": \"Diana\", \"message\": \"history 3\" }" http://127.0.0.1:1509/api/message
 > ```
 > ### Ответ
 > ```
@@ -234,7 +227,6 @@ Diana | FRqjSU
 >       "name":"Diana",
 >       "message":"message"
 >     },
->     ...
 >     {
 >       "name":"Diana",
 >       "message":"message"

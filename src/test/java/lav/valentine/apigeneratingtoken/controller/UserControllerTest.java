@@ -6,7 +6,6 @@ import lav.valentine.apigeneratingtoken.dto.MessageDto;
 import lav.valentine.apigeneratingtoken.dto.TokenDto;
 import lav.valentine.apigeneratingtoken.service.LoginService;
 import lav.valentine.apigeneratingtoken.service.MessageService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,20 +40,16 @@ class UserControllerTest {
     @Autowired
     private UserController userController;
 
-    private final String USER = "user";
-    private final String PASSWORD = "password";
-    private final String MESSAGE = "message";
-    private final String TOKEN = "token";
+    private final static String USER = "user";
+    private final static String PASSWORD = "password";
+    private final static String MESSAGE = "message";
+    private final static String TOKEN = "token";
 
     private MockMvc mvc;
 
     @BeforeEach
     void setUp() {
         mvc = MockMvcBuilders.standaloneSetup(userController).build();
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test
@@ -73,6 +68,35 @@ class UserControllerTest {
     }
 
     @Test
+    void registerSuccessful() throws Exception {
+        TokenDto tokenDto = new TokenDto(TOKEN);
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
+
+        when(loginService.userRegistration(any())).thenReturn(true);
+        when(loginService.userAuthentication(any())).thenReturn(tokenDto);
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(objectMapper.writeValueAsString(tokenDto)));
+    }
+
+    @Test
+    void registerUnsuccessful() throws Exception {
+        LoginDto loginDto = new LoginDto(USER, PASSWORD);
+
+        when(loginService.userRegistration(any())).thenReturn(false);
+
+        mvc.perform(MockMvcRequestBuilders.post("/api/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN));
+    }
+
+    @Test
     void sendMessageReturnedEmpty() throws Exception {
         when(messageService.checkMessage(any(), any())).thenReturn(Collections.emptyList());
         MessageDto messageDto = new MessageDto(USER, MESSAGE);
@@ -83,7 +107,7 @@ class UserControllerTest {
                     .content(objectMapper.writeValueAsString(messageDto)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType((MediaType.APPLICATION_JSON)))
-                .andExpect(content().string(objectMapper.writeValueAsString(messageDto)));;
+                .andExpect(content().string(objectMapper.writeValueAsString(messageDto)));
     }
 
     @Test
