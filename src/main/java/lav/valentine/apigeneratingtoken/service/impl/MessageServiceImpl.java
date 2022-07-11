@@ -2,11 +2,13 @@ package lav.valentine.apigeneratingtoken.service.impl;
 
 import lav.valentine.apigeneratingtoken.dto.MessageDto;
 import lav.valentine.apigeneratingtoken.entity.Message;
+import lav.valentine.apigeneratingtoken.exception.NotExistException;
 import lav.valentine.apigeneratingtoken.repository.MessageRepository;
 import lav.valentine.apigeneratingtoken.service.MessageService;
 import lav.valentine.apigeneratingtoken.service.TokenService;
 import lav.valentine.apigeneratingtoken.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -25,6 +27,9 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final UserService userService;
     private final TokenService tokenService;
+
+    @Value("${exception.message.not-exist}")
+    private String MESSAGE_NOT_EXIST;
 
     private final static String REGEX_GETTING_MESSAGE_HISTORY = "^history\\s[\\d]*$";
     private final static String REGEX_HOW_MANY_MESSAGES = "\\b[\\d]+\\b";
@@ -48,39 +53,55 @@ public class MessageServiceImpl implements MessageService {
         if (tokenService.tokenIsValid(token, messageDto.getName())) {
 
             String message = messageDto.getMessage();
-            int howManyMessages;
 
             // checking whether the user requests the message history
             if (Pattern.matches(REGEX_GETTING_MESSAGE_HISTORY, message)) {
-                Matcher matcherHowManyMessages = Pattern.compile(REGEX_HOW_MANY_MESSAGES).matcher(message);
-                if(matcherHowManyMessages.find()) {
-                    howManyMessages = Integer.parseInt(message
-                            .substring(matcherHowManyMessages.start(), matcherHowManyMessages.end()));
-
-                    log.info("Getting first " + howManyMessages + " messages from " + messageDto.getName());
-
-                    List<Message> messages = messageRepository
-                            .findAllByUser(userService.getUserByName(messageDto.getName()));
-
-                    int howToSkip = messages.size() - howManyMessages;
-                    return howToSkip > 0
-                            ? messages.stream().skip(howToSkip)
-                                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
-                                .collect(Collectors.toList())
-                            : messages.stream()
-                                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
-                                .collect(Collectors.toList());
-                }
+                return getMessageHistory(messageDto.getMessage(), messageDto.getName());
             }
             log.info("Saving message from " + messageDto.getName());
 
             // if the user does not request the message history, message will be saved
-            messageRepository.save(Message.builder()
-                    .messageId(UUID.randomUUID())
-                    .user(userService.getUserByName(messageDto.getName()))
-                    .message(messageDto.getMessage())
-                    .build());
+            saveMessage(messageDto);
         }
         return Collections.emptyList();
+    }
+
+    private void saveMessage(MessageDto messageDto) {
+        log.info("Saving message from " + messageDto.getName());
+
+        messageRepository.save(Message.builder()
+                .messageId(UUID.randomUUID())
+                .user(userService.getUserByName(messageDto.getName()))
+                .message(messageDto.getMessage())
+                .build());
+    }
+
+    private List<MessageDto> getMessageHistory(String message, String username) {
+        Matcher matcherHowManyMessages = Pattern.compile(REGEX_HOW_MANY_MESSAGES).matcher(message);
+
+        int howManyMessages = 0;
+
+        if (matcherHowManyMessages.find()) {
+            howManyMessages = Integer.parseInt(message
+                    .substring(matcherHowManyMessages.start(), matcherHowManyMessages.end()));
+        }
+
+        log.info("Getting first " + howManyMessages + " messages from " + username);
+
+        List<Message> messages = messageRepository
+                .findAllByUser(userService.getUserByName(username));
+
+        if (messages.isEmpty()) {
+            throw new NotExistException(MESSAGE_NOT_EXIST);
+        }
+        int howToSkip = messages.size() - howManyMessages;
+
+        return howToSkip > 0
+                ? messages.stream().skip(howToSkip)
+                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
+                .collect(Collectors.toList())
+                : messages.stream()
+                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
+                .collect(Collectors.toList());
     }
 }

@@ -8,7 +8,7 @@
 * Flyway
 
 ## Запуск приложения
-Шаг #1
+ШАГ #1
 
 Установите переменные окружения или же оставьте значения поумолчанию
   ```
@@ -19,7 +19,7 @@
     DATASOURCE_USERNAME=postgres
     DATASOURCE_USERNAME=root
   ```
-Шаг #2 
+ШАГ #2 
 
 Проверьте существует ли база данных с именем, храмимым переменной окружения `DATASOURCE_DATABASE`
 
@@ -29,34 +29,39 @@
     CREATE DATABASE api-generating-token
   ```
 
-Шаг #3
+ШАГ #3
 
   ```
     mvn package -DskipTests
   ```
-Шаг #4
+ШАГ #4
 
   ```
     java -jar ./target/api-generating-token-0.0.1-SNAPSHOT.jar
   ```
 ## Запуск приложения с использованием Docker
-Шаг #1
+ШАГ #1
 
   ```
     docker run --name db -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=api-generating-token postgres
   ```
-Шаг #2
+ШАГ #2
 
   ```
-    docker build -t api-generating-token .
+    docker build -t lavalentine/api-generating-token .
   ```
-Шаг #3
+или
 
   ```
-    docker run --name api-generating-token -p 1509:1509 -e DATASOURCE_HOST=host.docker.internal api-generating-token
+    docker pull lavalentine/api-generating-token
+  ```
+ШАГ #3
+
+  ```
+    docker run --name api-generating-token -p 1509:1509 -e DATASOURCE_HOST=host.docker.internal lavalentine/api-generating-token
   ```
 ## Или
-Шаг #1
+ШАГ #1
 
   ```
     docker compose up
