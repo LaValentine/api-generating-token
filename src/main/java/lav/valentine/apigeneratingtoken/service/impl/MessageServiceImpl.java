@@ -62,10 +62,14 @@ public class MessageServiceImpl implements MessageService {
                     List<Message> messages = messageRepository
                             .findAllByUser(userService.getUserByName(messageDto.getName()));
 
-                    return messages
-                            .stream().skip(messages.size() - howManyMessages)
-                            .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
-                            .collect(Collectors.toList());
+                    int howToSkip = messages.size() - howManyMessages;
+                    return howToSkip > 0
+                            ? messages.stream().skip(howToSkip)
+                                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
+                                .collect(Collectors.toList())
+                            : messages.stream()
+                                .map(m -> new MessageDto(m.getUser().getName(), m.getMessage()))
+                                .collect(Collectors.toList());
                 }
             }
             log.info("Saving message from " + messageDto.getName());
